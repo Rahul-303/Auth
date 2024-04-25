@@ -1,11 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { server } from "../server";
+import { useSetRecoilState } from "recoil";
+import { authState } from "../store/authState";
 
 export const Signin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(authState);
 
   const handleSignin = async (e: any) => {
     e.preventDefault();
@@ -14,13 +18,11 @@ export const Signin = () => {
       password,
     };
     try {
-      const res = await axios.post(
-        "http://localhost:3000/auth/signin",
-        formData
-      );
+      const res = await axios.post(`${server}/auth/signin`, formData);
       navigate("/");
       console.log(res.data);
-      window.localStorage.setItem("token","Bearer "+ res.data.token);
+      window.localStorage.setItem("token", "Bearer " + res.data.token);
+      setUser({token : null, username: res.data.username})
     } catch (err) {
       console.log(err);
     }
@@ -28,7 +30,7 @@ export const Signin = () => {
   return (
     <div style={{ justifyContent: "center", display: "flex", width: "100%" }}>
       <div>
-        <h2>Signup</h2>
+        <h2>Signin</h2>
         <input
           type="text"
           value={username}
@@ -43,9 +45,9 @@ export const Signin = () => {
           placeholder="Password"
         />
         <br />
-        New here? <Link to="/login">Login</Link>
+        New here? <Link to="/sign-up">Login</Link>
         <br />
-        <button onClick={handleSignin}>Signup</button>
+        <button onClick={handleSignin}>Sign in</button>
       </div>
     </div>
   );

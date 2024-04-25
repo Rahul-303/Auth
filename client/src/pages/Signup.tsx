@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { server } from "../server";
 
 export const Signup = () => {
   const [username, setUsername] = useState("");
@@ -14,10 +15,7 @@ export const Signup = () => {
       password,
     };
     try {
-      const res = await axios.post(
-        "http://localhost:3000/auth/signup",
-        formData
-      );
+      const res = await axios.post(`${server}/auth/signup`, formData);
       navigate("/sign-in");
       console.log(res.data);
     } catch (err) {
