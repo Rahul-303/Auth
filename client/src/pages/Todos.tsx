@@ -27,7 +27,7 @@ const Todos = () => {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${localStorage.getItem("token")}`,
+          "Authorization": `${localStorage.getItem("token")}`,
         },
       };
       const res = await axios.post(`${server}/todo/create`, todo, config);
@@ -43,7 +43,7 @@ const Todos = () => {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `${localStorage.getItem("token")}`,
+        "Authorization": `${localStorage.getItem("token")}`,
       },
     };
     try{
@@ -58,7 +58,7 @@ const Todos = () => {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `${localStorage.getItem("token")}`,
+        "Authorization": `${localStorage.getItem("token")}`,
       },
     };
     try {

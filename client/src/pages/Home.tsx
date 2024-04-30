@@ -1,14 +1,19 @@
 import { useRecoilValue } from "recoil";
 import { authState } from "../store/authState";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import Todos from "./Todos";
+import { useEffect } from "react";
 
 const Home = () => {
   const user = useRecoilValue(authState);
-  const [showTodo, setShowTodo] = useState(false);
   const navigate = useNavigate();
   console.log(user);
+
+  useEffect(()=>{
+    if(!user.username){
+      localStorage.clear();
+      navigate('/sign-in')
+    }
+  },[])
   
   return (
     <div>
@@ -18,17 +23,17 @@ const Home = () => {
           <button
             onClick={() => {
               localStorage.removeItem("token");
+              sessionStorage.clear();
               navigate('/sign-in');
             }}
           >
             Logout
           </button>
-          <button onClick={() => setShowTodo(true)}>
-            get todos
+          <button onClick={() => navigate('/todos')}>
+            get and add todos
           </button>
         </div>
       </div>
-      {showTodo && <Todos />}
     </div>
   );
 };
